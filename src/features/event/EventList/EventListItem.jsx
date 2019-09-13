@@ -1,18 +1,19 @@
 import React, { Component } from 'react';
 import { Segment, Item, Icon, List, Button } from 'semantic-ui-react';
-import EventListAttendee from './EventListAttendee'
+import { Link } from 'react-router-dom';
+import EventListAttendee from './EventListAttendee';
 
 class EventListItem extends Component {
   render() {
-    const {event, onEventOpen, deleteEvent} = this.props;
+    const { event, deleteEvent } = this.props;
     return (
       <Segment.Group>
         <Segment>
           <Item.Group>
             <Item>
-              <Item.Image size="tiny" circular src={event.hostPhotoURL}/>
+              <Item.Image size='tiny' circular src={event.hostPhotoURL} />
               <Item.Content>
-                <Item.Header as="a">{event.title}</Item.Header>
+                <Item.Header as='a'>{event.title}</Item.Header>
                 <Item.Description>
                   Hosted by <a>{event.hostedBy}</a>
                 </Item.Description>
@@ -22,22 +23,33 @@ class EventListItem extends Component {
         </Segment>
         <Segment>
           <span>
-            <Icon name="clock" /> {event.date} |
-            <Icon name="marker" /> {event.venue}
+            <Icon name='clock' /> {event.date} |
+            <Icon name='marker' /> {event.venue}
           </span>
         </Segment>
         <Segment secondary>
           <List horizontal>
-          {event.attendees && event.attendees.map((attendee) => (
-            <EventListAttendee key={attendee.id} attendee={attendee}/>
-          ))}
-
+            {event.attendees &&
+              event.attendees.map(attendee => (
+                <EventListAttendee key={attendee.id} attendee={attendee} />
+              ))}
           </List>
         </Segment>
         <Segment clearing>
-        <span>{event.description}</span>
-          <Button onClick={deleteEvent(event.id)} color="red" floated="right" content="Delete" />
-          <Button onClick={onEventOpen(event)} color="teal" floated="right" content="View" />
+          <span>{event.description}</span>
+          <Button
+            onClick={deleteEvent(event.id)}
+            color='red'
+            floated='right'
+            content='Delete'
+          />
+          <Button
+            as={Link}
+            to={`/event/${event.id}`}
+            color='teal'
+            floated='right'
+            content='View'
+          />
         </Segment>
       </Segment.Group>
     );
