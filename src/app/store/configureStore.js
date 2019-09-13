@@ -1,9 +1,29 @@
-import { createStore } from 'redux';
+import { createStore, applyMiddleware } from 'redux';
+import { composeWithDevTools } from 'redux-devtools-extension';    
 import rootReducer from '../reducers/rootReducer';
-import {devToolsEnhancer} from 'redux-devtools-extension'
 
-export const configureStore = () => {
-  const store = createStore(rootReducer, devToolsEnhancer());
+export const configureStore = (preloadedState) => {
+    const middlewares = [];
+    const middlewareEnhancer = applyMiddleware(...middlewares);
 
-  return store;
-};
+    const storeEnhancers = [middlewareEnhancer];
+
+    const composedEnhancer = composeWithDevTools(...storeEnhancers);
+
+    const store = createStore(
+        rootReducer,
+        preloadedState,
+        composedEnhancer
+    );
+
+    if (process.env.NODE_ENV !== 'production') {
+        if (module.hot) {
+            module.hot.accept('../reducers/rootReducer', () => {
+                const newRootReducer = require('../reducers/rootReducer').default;
+                store.replaceReducer(newRootReducer)
+            })
+        }
+    }
+
+    return store;
+}
