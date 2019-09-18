@@ -2,7 +2,6 @@
 import React, { Component } from 'react';
 import { Form, Segment, Button, Grid, Header } from 'semantic-ui-react';
 import { reduxForm, Field } from 'redux-form';
-import Script from 'react-load-script'
 import { geocodeByAddress, getLatLng } from 'react-places-autocomplete';
 import {
   composeValidators,
@@ -117,10 +116,6 @@ class EventForm extends Component {
     return (
       <Grid>
         <Grid.Column width={10}>
-        <Script
-          url="https://maps.googleapis.com/maps/api/js?key=AIzaSyBINloYMwCoBj3Tqtdr0bUw3QZeZlAJlDU&libraries=places"
-          onLoad={this.handleScriptLoaded}
-        />
           <Segment>
             <Header sub color='teal' content='Event Details' />
             <Form onSubmit={this.props.handleSubmit(this.onFormSubmit)}>
