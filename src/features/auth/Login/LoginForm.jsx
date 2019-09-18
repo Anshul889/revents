@@ -2,24 +2,30 @@ import React from 'react';
 import { Form, Segment, Button } from 'semantic-ui-react';
 import { Field, reduxForm } from 'redux-form';
 import TextInput from '../../../app/common/form/TextInput';
+import { connect } from 'react-redux';
+import { login } from '../authActions';
 
-const LoginForm = () => {
+const actions = {
+  login
+};
+
+const LoginForm = ({ login, handleSubmit }) => {
   return (
-    <Form error size="large">
+    <Form error size='large' onSubmit={handleSubmit(login)} autoComplete='off'>
       <Segment>
         <Field
-          name="email"
+          name='email'
           component={TextInput}
-          type="text"
-          placeholder="Email Address"
+          type='text'
+          placeholder='Email Address'
         />
         <Field
-          name="password"
+          name='password'
           component={TextInput}
-          type="password"
-          placeholder="password"
+          type='password'
+          placeholder='password'
         />
-        <Button fluid size="large" color="teal">
+        <Button fluid size='large' color='teal'>
           Login
         </Button>
       </Segment>
@@ -27,4 +33,7 @@ const LoginForm = () => {
   );
 };
 
-export default reduxForm({form: 'loginform'})(LoginForm);
+export default connect(
+  null,
+  actions
+)(reduxForm({ form: 'loginform' })(LoginForm));
