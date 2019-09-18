@@ -10,19 +10,19 @@ import EventForm from '../../features/event/EventForm/EventFom';
 import UserDetailedPage from '../../features/user/UserDetailed/UserDetailedPage';
 import PeopleDashboard from '../../features/user/PeopleDashboard/PeopleDashboard';
 import TestComponent from '../../features/testarea/TestComponent';
+import ModalManager from '../../features/modals/ModalManager';
 
 class App extends Component {
   render() {
     return (
       <Fragment>
-        <Switch>
+        <ModalManager />
           <Route exact path='/' component={HomePage} />
-        </Switch>
-
         <Route
           path='/(.+)'
           render={() => (
             <Fragment>
+              <ModalManager />
               <NavBar />
               <Container className='main'>
                 <Switch key={this.props.location.key}>
