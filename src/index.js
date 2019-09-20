@@ -8,11 +8,9 @@ import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import ReduxToastr from 'react-redux-toastr';
 import { configureStore } from './app/store/configureStore';
-import { loadEvents } from './features/event/eventActions';
 import ScrollToTop from './app/common/util/ScrollToTop';
 
 const store = configureStore();
-store.dispatch(loadEvents());
 
 const rootEl = document.getElementById('root');
 
