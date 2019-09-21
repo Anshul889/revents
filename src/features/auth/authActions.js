@@ -1,5 +1,6 @@
-import { closeModal } from '../modals/modalActions';
-import { SubmissionError } from 'redux-form';
+import { closeModal } from "../modals/modalActions";
+import { SubmissionError, reset } from "redux-form";
+import { toastr } from "react-redux-toastr";
 
 export const login = creds => {
   return async (dispatch, getState, { getFirebase }) => {
@@ -12,7 +13,7 @@ export const login = creds => {
     } catch (error) {
       console.log(error);
       throw new SubmissionError({
-        _error: 'Login failed'
+        _error: "Login failed"
       });
     }
   };
@@ -57,16 +58,34 @@ export const socialLogin = selectedProvider => async (
     dispatch(closeModal());
     let user = await firebase.login({
       provider: selectedProvider,
-      type: 'popup'
+      type: "popup"
     });
-    if(user.additionalUserInfo.isNewUser) {
+    if (user.additionalUserInfo.isNewUser) {
       await firestore.set(`users/${user.user.uid}`, {
         displayName: user.profile.displayName,
         photoURL: user.profile.avatarUrl,
         createdAt: firestore.FieldValue.serverTimestamp()
-      })
+      });
     }
   } catch (error) {
     console.log(error);
+  }
+};
+
+export const updatePassword = creds => async (
+  dispatch,
+  getState,
+  { getFirebase }
+) => {
+  const firebase = getFirebase();
+  const user = firebase.auth().currentUser;
+  try {
+    await user.updatePassword(creds.newPassword1);
+    await dispatch(reset('account'));
+    toastr.success("Success", "Yout password has been updated");
+  } catch (error) {
+    throw new SubmissionError({
+      _error: error.message
+    });
   }
 };
