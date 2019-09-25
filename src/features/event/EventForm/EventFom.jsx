@@ -9,7 +9,6 @@ import {
   isRequired,
   hasLengthGreaterThan
 } from 'revalidate';
-import cuid from 'cuid';
 import { connect } from 'react-redux';
 import { createEvent, updateEvent } from '../eventActions';
 import TextInput from '../../../app/common/form/TextInput';
@@ -66,20 +65,18 @@ class EventForm extends Component {
     venueLatLng: {}
   };
 
-  onFormSubmit = values => {
+  onFormSubmit = async values => {
     values.venueLatLng = this.state.venueLatLng;
-    if (this.props.initialValues.id) {
-      this.props.updateEvent(values);
-      this.props.history.goBack();
-    } else {
-      const newEvent = {
-        ...values,
-        id: cuid(),
-        hostPhotoURL: '/assets/user.png',
-        hostedBy: 'Bob'
-      };
-      this.props.createEvent(newEvent);
-      this.props.history.push('/events');
+    try {
+      if (this.props.initialValues.id) {
+        this.props.updateEvent(values);
+        this.props.history.push(`events/${this.props.initialValues.id}`);
+      } else {
+        let createdEvent = await this.props.createEvent(values);
+        this.props.history.push(`/events/${createdEvent.id}`);
+      }
+    } catch(error) {
+      console.log(error)
     }
   };
 
