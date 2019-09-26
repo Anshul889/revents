@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
-import { Segment, Item, Icon, List, Button } from 'semantic-ui-react';
+import { Segment, Item, Icon, List, Button, Label } from 'semantic-ui-react';
 import { Link } from 'react-router-dom'
 import EventListAttendee from './EventListAttendee'
 import { format } from 'date-fns';
 
 class EventListItem extends Component {
   render() {
-    const {event, deleteEvent} = this.props;
+    const {event} = this.props;
     return (
       <Segment.Group>
         <Segment>
@@ -18,6 +18,8 @@ class EventListItem extends Component {
                 <Item.Description>
                   Hosted by {event.hostedBy}
                 </Item.Description>
+                {event.cancelled &&
+                <Label style={{top: '-40px'}} ribbon='right' color='red' content='Cancelled'/>}
               </Item.Content>
             </Item>
           </Item.Group>
@@ -38,7 +40,6 @@ class EventListItem extends Component {
         </Segment>
         <Segment clearing>
         <span>{event.description}</span>
-          <Button onClick={deleteEvent(event.id)} color="red" floated="right" content="Delete" />
           <Button as={Link} to={`/event/${event.id}`} color="teal" floated="right" content="View" />
         </Segment>
       </Segment.Group>

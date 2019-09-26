@@ -17,7 +17,6 @@ import SelectInput from '../../../app/common/form/SelectInput';
 import DateInput from '../../../app/common/form/DateInput';
 import PlaceInput from '../../../app/common/form/PlaceInput';
 import { withFirestore } from 'react-redux-firebase';
-import { toastr } from 'react-redux-toastr';
 
 const mapState = (state, ownProps) => {
   const eventId = ownProps.match.params.id;
@@ -83,6 +82,9 @@ class EventForm extends Component {
     values.venueLatLng = this.state.venueLatLng;
     try {
       if (this.props.initialValues.id) {
+        if(Object.keys(values.venueLatLng).length === 0) {
+          values.venueLatLng = this.props.event.venueLatLng
+        }
         this.props.updateEvent(values);
         this.props.history.push(`event/${this.props.initialValues.id}`);
       } else {
