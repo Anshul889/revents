@@ -8,8 +8,7 @@ import EventDetailedChat from './EventDetailedChat';
 import EventDetailedSidebar from './EventDetailedSidebar';
 import { withFirestore } from 'react-redux-firebase';
 import { objectToArray } from '../../../app/common/util/helpers';
-import { toastr } from 'react-redux-toastr';
-import {goingToEvent} from '../../user/userActions';
+import {goingToEvent, cancelGoingToEvent} from '../../user/userActions';
 
 const mapState = (state, ownProps) => {
   const eventId = ownProps.match.params.id;
@@ -27,7 +26,8 @@ const mapState = (state, ownProps) => {
 };
 
 const actions = {
-  goingToEvent
+  goingToEvent,
+  cancelGoingToEvent
 }
 
 class EventDetailedPage extends Component {
@@ -42,14 +42,14 @@ class EventDetailedPage extends Component {
   }
 
   render() {
-    const {event, auth, goingToEvent} = this.props;
+    const {event, auth, goingToEvent, cancelGoingToEvent} = this.props;
     const attendees = event && event.attendees && objectToArray(event.attendees);
     const isHost = event.hostUid === auth.uid;
     const isGoing = attendees && attendees.some(a => a.id === auth.uid)
     return (
       <Grid>
         <Grid.Column width={10}>
-          <EventDetailedHeader event={event} isGoing={isGoing} isHost={isHost} goingToEvent={goingToEvent} />
+          <EventDetailedHeader event={event} isGoing={isGoing} isHost={isHost} goingToEvent={goingToEvent} cancelGoingToEvent={cancelGoingToEvent} />
           <EventDetailedInfo event={event} />
           <EventDetailedChat />
         </Grid.Column>

@@ -16,7 +16,7 @@ const eventImageTextStyle = {
   color: 'white'
 };
 
-const EventDetailedHeader = ({ event, isHost, isGoing, goingToEvent }) => {
+const EventDetailedHeader = ({ event, isHost, isGoing, goingToEvent, cancelGoingToEvent }) => {
   return (
     <Segment.Group>
       <Segment basic attached='top' style={{ padding: '0' }}>
@@ -51,7 +51,7 @@ const EventDetailedHeader = ({ event, isHost, isGoing, goingToEvent }) => {
         {!isHost && (
           <Fragment>
             {isGoing ? (
-              <Button>Cancel My Place</Button>
+              <Button onClick={() => cancelGoingToEvent(event)}>Cancel My Place</Button>
             ) : (
               <Button onCLick={() => goingToEvent(event)} color='teal'>JOIN THIS EVENT</Button>
             )}
