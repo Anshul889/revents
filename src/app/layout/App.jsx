@@ -22,19 +22,16 @@ class App extends Component {
           path='/(.+)'
           render={() => (
             <Fragment>
-              <ModalManager />
               <NavBar />
               <Container className='main'>
                 <Switch key={this.props.location.key}>
                   <Route path='/events' component={EventDashboard} />
                   <Route path='/event/:id' component={EventDetailedPage} />
-                  <Route
-                    path={['/createEvent', '/manage/:id']}
-                    component={EventForm}
-                  />
+                  <Route path="/manage/:id" component={EventForm} />
                   <Route path='/people' component={PeopleDashboard} />
                   <Route path='/profile/:id' component={UserDetailedPage} />
                   <Route path='/settings' component={SettingsDashboard} />
+                  <Route path="/createEvent" component={EventForm} />
                   <Route path='/test' component={TestComponent} />
                 </Switch>
               </Container>

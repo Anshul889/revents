@@ -8,6 +8,7 @@ import EventDetailedChat from './EventDetailedChat';
 import EventDetailedSidebar from './EventDetailedSidebar';
 import { withFirestore } from 'react-redux-firebase';
 import { objectToArray } from '../../../app/common/util/helpers';
+import { toastr } from 'react-redux-toastr';
 
 const mapState = (state, ownProps) => {
   const eventId = ownProps.match.params.id;
@@ -15,7 +16,7 @@ const mapState = (state, ownProps) => {
   let event = {};
 
   if (state.firestore.ordered.events && state.firestore.ordered.events.length > 0) {
-    event = state.firestore.ordered.events.filter(event => event.id === eventId)[0];
+    event = state.firestore.ordered.events.filter(event => event.id === eventId)[0] || {};
   }
 
   return {
@@ -25,9 +26,12 @@ const mapState = (state, ownProps) => {
 
 class EventDetailedPage extends Component {
   async componentDidMount(){
-    const{firestore, match} = this.props;
+    const{firestore, match, history} = this.props;
     let event = await firestore.get(`events/${match.params.id}`);
-    console.log(event);
+    if(!event.exists) {
+      history.push('/events');
+      toastr.error('Sorry', 'event not found')
+    }
   }
   render() {
     const {event} = this.props;
