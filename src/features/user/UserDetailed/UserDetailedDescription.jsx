@@ -1,11 +1,11 @@
 import React, { Fragment } from 'react'
 import { Grid, Segment, Header, List, Item, Icon } from 'semantic-ui-react'
-import { format } from 'date-fns/esm';
+import { format } from 'date-fns/';
 
 const UserDetailedDescription = ({profile}) => {
   let createdAt;
   if (profile.createdAt) {
-    createdAt = format(profile.createdAt.toDate(), 'D MM YYYY');
+    createdAt = format(profile.createdAt.toDate(), 'EEEE do LLL');
   }
   return (
     <Fragment>
@@ -13,7 +13,7 @@ const UserDetailedDescription = ({profile}) => {
           <Segment>
             <Grid columns={2}>
               <Grid.Column width={10}>
-                <Header icon='smile' content='About Display Name' />
+                <Header icon='smile' content='About' />
                 <p>
                   I am a: <strong>{profile.occupation || 'tbn'}</strong>
                 </p>

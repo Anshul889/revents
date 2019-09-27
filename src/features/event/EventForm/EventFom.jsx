@@ -86,7 +86,7 @@ class EventForm extends Component {
           values.venueLatLng = this.props.event.venueLatLng
         }
         this.props.updateEvent(values);
-        this.props.history.push(`event/${this.props.initialValues.id}`);
+        this.props.history.push(`/event/${this.props.initialValues.id}`);
       } else {
         let createdEvent = await this.props.createEvent(values);
         this.props.history.push(`/event/${createdEvent.id}`);
@@ -95,8 +95,6 @@ class EventForm extends Component {
       console.log(error);
     }
   };
-
-  handleScriptLoaded = () => this.setState({ scriptLoaded: true });
 
   handleCitySelect = selectedCity => {
     geocodeByAddress(selectedCity)
