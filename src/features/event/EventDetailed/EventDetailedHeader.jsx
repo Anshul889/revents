@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import { Segment, Image, Item, Header, Button } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 import { format } from 'date-fns';
@@ -47,24 +47,20 @@ const EventDetailedHeader = ({ event, isHost, isGoing, goingToEvent, cancelGoing
         </Segment>
       </Segment>
 
-      <Segment attached='bottom' clearing>
+      <Segment attached="bottom">
         {!isHost && (
-          <Fragment>
+          <div>
             {isGoing ? (
               <Button onClick={() => cancelGoingToEvent(event)}>Cancel My Place</Button>
             ) : (
-              <Button onCLick={() => goingToEvent(event)} color='teal'>JOIN THIS EVENT</Button>
+              <Button onClick={() => goingToEvent(event)} color="teal">JOIN THIS EVENT</Button>
             )}
-          </Fragment>
+          </div>
         )}
         {isHost && (
-        <Button
-          as={Link}
-          to={`/manage/${event.id}`}
-          color='orange'
-          floated='right'>
-          Manage Event
-        </Button>
+          <Button as={Link} to={`/manage/${event.id}`} color="orange">
+            Manage Event
+          </Button>
         )}
       </Segment>
     </Segment.Group>
