@@ -128,7 +128,7 @@ export const goingToEvent = event => async (
     await firestore.update(`events/${event.id}`, {
       [`attendees.${user.uid}`]: attendee
     });
-    await firestore.set(`event.attendee/${event.id}_${user.uid}`, {
+    await firestore.set(`event_attendee/${event.id}_${user.uid}`, {
       eventId: event.id,
       userUid: user.uid,
       eventDate: event.date,
