@@ -1,5 +1,5 @@
 import { INCREMENT_COUNTER, DECREMENT_COUNTER } from './testConstants';
-import { aysncActionFinish } from '../async/asyncActions';
+import { asyncActionFinish } from '../async/asyncActions';
 import { ASYNC_ACTION_START } from '../async/asyncConstant';
 
 export const incrementCounter = () => {
@@ -23,7 +23,7 @@ export const incrementAsync = (name) => {
     dispatch({type: ASYNC_ACTION_START, payload: name})
     await delay(1000)
     dispatch(incrementCounter())
-    dispatch(aysncActionFinish())
+    dispatch(asyncActionFinish())
   }
 }
 
@@ -32,6 +32,6 @@ export const decrementAsync = (name) => {
     dispatch({type: ASYNC_ACTION_START, payload: name})
     await delay(1000)
     dispatch({type: DECREMENT_COUNTER})
-    dispatch(aysncActionFinish())
+    dispatch(asyncActionFinish())
   }
 }

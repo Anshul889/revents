@@ -1,8 +1,8 @@
 import { toastr } from 'react-redux-toastr';
 import {
-  aysncActionStart,
-  aysncActionFinish,
-  aysncActionError
+  asyncActionStart,
+  asyncActionFinish,
+  asyncActionError
 } from '../async/asyncActions';
 import cuid from 'cuid';
 
@@ -35,7 +35,7 @@ export const uploadProfileImage = (file, fileName) => async (
     name: imageName
   };
   try {
-    dispatch(aysncActionStart());
+    dispatch(asyncActionStart());
     // upload the file to firebase storage
     let uploadedFile = await firebase.uploadFile(path, file, null, options);
     // get url of the image
@@ -63,10 +63,10 @@ export const uploadProfileImage = (file, fileName) => async (
         url: downloadURL
       }
     );
-    dispatch(aysncActionFinish());
+    dispatch(asyncActionFinish());
   } catch (error) {
     console.log(error);
-    dispatch(aysncActionError());
+    dispatch(asyncActionError());
     throw new Error('Problem uploading photo');
   }
 };

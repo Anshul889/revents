@@ -1,33 +1,57 @@
 import React, { Component } from 'react';
-import { Grid } from 'semantic-ui-react';
+import { Grid, Button } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import EventList from '../EventList/EventList';
-import { createEvent, updateEvent } from '../eventActions';
+import { getEventsForDashboard } from '../eventActions';
 import LoadingComponent from '../../../app/layout/LoadingComponent';
 import EventActivity from '../EventActivity/EventActivity';
-import { firestoreConnect, isLoaded } from 'react-redux-firebase';
+import { firestoreConnect } from 'react-redux-firebase';
 
 const mapState = state => ({
-  events: state.firestore.ordered.events,
+  events: state.events,
+  loading: state.async.loading
 });
 
 const actions = {
-  createEvent,
-  updateEvent
+  getEventsForDashboard
 };
 
 class EventDashboard extends Component {
-  handleDeleteEvent = eventId => () => {
-    this.props.deleteEvent(eventId);
-  };
+  state = {
+    moreEvents: false
+  }
+  async componentDidMount(){
+    let next  = await this.props.getEventsForDashboard();
+    console.log(next);
+
+    if (next && next.docs && next.docs.length > 1) {
+      this.setState({
+        moreEvents: true
+      })
+    }
+  }
+
+  getNextEvents = async () => {
+    const {events} = this.props;
+    let lastEvent = events && events[events.length -1];
+    console.log(lastEvent);
+    let next = await this.props.getEventsForDashboard(lastEvent);
+    console.log(next);
+    if(next && next.docs && next.docs.length <= 1) {
+      this.setState({
+        moreEvents: true
+      })
+    }
+  }
 
   render() {
-    const { events} = this.props;
-    if (!isLoaded(events)) return <LoadingComponent inverted={false} />;
+    const { events, loading } = this.props;
+    if (loading) return <LoadingComponent inverted={false} />;
     return (
       <Grid>
         <Grid.Column width={10}>
           <EventList deleteEvent={this.handleDeleteEvent} events={events} />
+          <Button onClick={this.getNextEvents} disabled={!this.state.moreEvents} content='More' color="green" floated='right' />
         </Grid.Column>
         <Grid.Column width={6}>
           <EventActivity />
