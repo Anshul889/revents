@@ -1,11 +1,13 @@
 import React, { Fragment } from 'react'
 import { Grid, Segment, Header, Menu, Card, Image } from 'semantic-ui-react'
+import { Link } from 'react-router-dom'
+import { format } from 'date-fns'
 
-const UserDetailedEvents = () => {
+const UserDetailedEvents = ({events, eventsLoading}) => {
   return (
     <Fragment>
       <Grid.Column width={12}>
-          <Segment attached>
+          <Segment attached loading={eventsLoading}>
             <Header icon='calendar' content='Events' />
             <Menu secondary pointing>
               <Menu.Item name='All Events' active />
@@ -15,25 +17,18 @@ const UserDetailedEvents = () => {
             </Menu>
 
             <Card.Group itemsPerRow={5}>
-              <Card>
-                <Image src={'/assets/categoryImages/drinks.jpg'} />
-                <Card.Content>
-                  <Card.Header textAlign='center'>Event Title</Card.Header>
-                  <Card.Meta textAlign='center'>
-                    28th March 2018 at 10:00 PM
-                  </Card.Meta>
-                </Card.Content>
-              </Card>
-
-              <Card>
-                <Image src={'/assets/categoryImages/drinks.jpg'} />
-                <Card.Content>
-                  <Card.Header textAlign='center'>Event Title</Card.Header>
-                  <Card.Meta textAlign='center'>
-                    28th March 2018 at 10:00 PM
-                  </Card.Meta>
-                </Card.Content>
-              </Card>
+            {events && events.map(event => (
+              <Card as={Link} to={`/event/${event.id}`} key={event.id}>
+              <Image src={`/assets/categoryImages/${event.category}.jpg`} />
+              <Card.Content>
+                <Card.Header textAlign='center'>{event.title}</Card.Header>
+                <Card.Meta textAlign='center'>
+                  <div>{format(event.date.toDate(), 'EEEE do LLL')}</div>
+                  <div>{format(event.date && event.date.toDate(), 'h:mm a')}</div>
+                </Card.Meta>
+              </Card.Content>
+            </Card>
+            ))}
             </Card.Group>
           </Segment>
         </Grid.Column>
