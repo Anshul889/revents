@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Grid, Button } from 'semantic-ui-react';
+import { Grid, GridColumn, Loader } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import EventList from '../EventList/EventList';
 import { getEventsForDashboard } from '../eventActions';
@@ -18,44 +18,63 @@ const actions = {
 
 class EventDashboard extends Component {
   state = {
-    moreEvents: false
-  }
-  async componentDidMount(){
-    let next  = await this.props.getEventsForDashboard();
+    moreEvents: false,
+    loadingInitial: true,
+    loadedEvents: []
+  };
+  async componentDidMount() {
+    let next = await this.props.getEventsForDashboard();
     console.log(next);
 
     if (next && next.docs && next.docs.length > 1) {
       this.setState({
-        moreEvents: true
-      })
+        moreEvents: true,
+        loadingInitial: false
+      });
     }
   }
 
+  componentDidUpdate = prevProps => {
+    if (this.props.events !== prevProps.events) {
+      this.setState({
+        loadedEvents: [...this.state.loadedEvents, ...this.props.events]
+      });
+    }
+  };
+
   getNextEvents = async () => {
-    const {events} = this.props;
-    let lastEvent = events && events[events.length -1];
+    const { events } = this.props;
+    let lastEvent = events && events[events.length - 1];
     console.log(lastEvent);
     let next = await this.props.getEventsForDashboard(lastEvent);
     console.log(next);
-    if(next && next.docs && next.docs.length <= 1) {
+    if (next && next.docs && next.docs.length <= 1) {
       this.setState({
         moreEvents: true
-      })
+      });
     }
-  }
+  };
 
   render() {
-    const { events, loading } = this.props;
-    if (loading) return <LoadingComponent inverted={false} />;
+    const { loading } = this.props;
+    const { moreEvents, loadedEvents } = this.state;
+    if (this.state.loadingInitial) return <LoadingComponent />;
     return (
       <Grid>
         <Grid.Column width={10}>
-          <EventList deleteEvent={this.handleDeleteEvent} events={events} />
-          <Button onClick={this.getNextEvents} disabled={!this.state.moreEvents} content='More' color="green" floated='right' />
+          <EventList
+            loading={loading}
+            events={loadedEvents}
+            moreEvents={moreEvents}
+            getNextEvents={this.getNextEvents}
+          />
         </Grid.Column>
         <Grid.Column width={6}>
           <EventActivity />
         </Grid.Column>
+        <GridColumn width={10}>
+          <Loader active={loading}/>
+        </GridColumn>
       </Grid>
     );
   }
