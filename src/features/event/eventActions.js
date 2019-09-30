@@ -8,7 +8,7 @@ import {
   asyncActionError
 } from '../async/asyncActions';
 
-export const createEvent = event => {
+export const createEvent = (event, parentId) => {
   return async (dispatch, getState, { getFirestore, getFirebase }) => {
     const firestore = getFirestore();
     const firebase = getFirebase();
@@ -18,6 +18,7 @@ export const createEvent = event => {
     try {
       let createdEvent = await firestore.add('events', newEvent);
       await firestore.set(`event_attendee/${createdEvent.id}_${user.uid}`, {
+        parentId: parentId,
         eventId: createdEvent.id,
         userUid: user.uid,
         eventDate: event.date,
@@ -114,7 +115,7 @@ export const getEventsForDashboard = lastEvent => async (
   }
 };
 
-export const addEventComment = (eventId, values) => async (
+export const addEventComment = (eventId, values, parentId) => async (
   dispatch,
   getState,
   { getFirebase }
@@ -123,6 +124,7 @@ export const addEventComment = (eventId, values) => async (
   const profile = getState().firebase.profile;
   const user = firebase.auth().currentUser;
   let newComment = {
+    parentId: parentId,
     displayName: profile.displayName,
     photoURL: profile.photoURL || '/assets/user.png',
     uid: user.uid,
