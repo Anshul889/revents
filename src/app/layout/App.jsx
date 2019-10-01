@@ -8,8 +8,6 @@ import EventDetailedPage from '../../features/event/EventDetailed/EventDetailedP
 import SettingsDashboard from '../../features/user/Settings/SettingsDashboard';
 import EventForm from '../../features/event/EventForm/EventFom';
 import UserDetailedPage from '../../features/user/UserDetailed/UserDetailedPage';
-import PeopleDashboard from '../../features/user/PeopleDashboard/PeopleDashboard';
-import TestComponent from '../../features/testarea/TestComponent';
 import ModalManager from '../../features/modals/ModalManager';
 
 class App extends Component {
@@ -28,11 +26,9 @@ class App extends Component {
                   <Route path='/events' component={EventDashboard} />
                   <Route path='/event/:id' component={EventDetailedPage} />
                   <Route path="/manage/:id" component={EventForm} />
-                  <Route path='/people' component={PeopleDashboard} />
                   <Route path='/profile/:id' component={UserDetailedPage} />
                   <Route path='/settings' component={SettingsDashboard} />
                   <Route path="/createEvent" component={EventForm} />
-                  <Route path='/test' component={TestComponent} />
                 </Switch>
               </Container>
             </Fragment>
