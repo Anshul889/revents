@@ -2,7 +2,7 @@
 
 Login and Register functionality using Firebase authentication
 
-Adding social login for Facebook and Google into the application
+Social login for Facebook and Google into the application
 
 Google maps and Places autocomplete integration
 
