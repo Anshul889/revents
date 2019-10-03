@@ -1,5 +1,23 @@
 # Demo : https://reventsapp.netlify.com/
 
+Login and Register functionality using Firebase authentication
+
+Adding social login for Facebook and Google into the application
+
+Google maps and Places autocomplete integration
+
+Photo uploading using drag and drop, with resizing and cropping of the images before upload
+
+Live chat system
+
+Paging, Sorting and Filtering with Firestore
+
+Infinite scroll for the pagination
+
+Firestore database design
+
+Creating reusable form components with Redux forms
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
