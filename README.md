@@ -1,4 +1,4 @@
-# H1 Demo : https://reventsapp.netlify.com/
+# Demo : https://reventsapp.netlify.com/
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
