@@ -9,7 +9,7 @@ const HomePage = ({history}) => {
             <img className="ui image massive" src="/assets/logo.png" alt="logo" />
             <div className="content">Re-vents</div>
           </h1>
-          <ul>
+          <ul style={{listStyle: 'none'}}>
             <li>Login and Register functionality using Firebase authentication</li>
             <li>Social login for Facebook and Google into the application</li>
             <li>Google maps and Places autocomplete integration</li>
