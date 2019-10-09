@@ -1,5 +1,3 @@
-# Demo : https://reventsapp.netlify.com/
-
 Login and Register functionality using Firebase authentication
 
 Social login for Facebook and Google into the application
